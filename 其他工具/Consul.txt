@@ -1,0 +1,5 @@
+安装
+https://learn.hashicorp.com/consul/getting-started/install.html
+
+运行
+consul agent -dev
