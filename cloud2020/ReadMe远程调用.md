@@ -45,6 +45,7 @@ public interface EmppService {
  2.不支持@GetMapping类似注解声明请求，需使用@RequestMapping(value = "url",method = RequestMethod.GET)
 
  3.使用@RequestParam注解时必须要在后面加上参数名
+
 ============================================================================================
 
 
