@@ -36,8 +36,8 @@ public class PaymentController {
             return new CommonResult(444,"插入数据库失败",null);
         }
     }
-    @GetMapping(value = "/payment/get/{id}")
-    public CommonResult getPaymentById(@PathVariable("id") Long id){
+    @GetMapping("payment/get")
+    public CommonResult getPaymentById(@RequestParam("id") Long id){
         Payment payment = paymentService.getPaymentById(id);
         log.info("*****查询结果："+payment);
         if (payment!=null){  //说明有数据，能查询成功
@@ -60,5 +60,10 @@ public class PaymentController {
         return this.discoveryClient;
     }
 
+
+    @GetMapping(value = "/payment/lb")
+    public String getPaymentLB(){
+        return serverPort;
+    }
 
 }

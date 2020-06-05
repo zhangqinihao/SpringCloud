@@ -78,3 +78,4 @@ cmd java -jar  dubbo-admin-0.0.1-SNAPSHOT.jar 端口号 7001
 consul 查看版本
 consul agent -dev  运行
 可视化页面  http://localhost:8500
+========================================================================

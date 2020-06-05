@@ -3,10 +3,9 @@ package com.atguigu.springcloud;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-@EnableEurekaClient //注册eureka
+//@EnableEurekaClient //注册eureka
 @EnableDiscoveryClient
 public class PaymentMain8001 {
 
