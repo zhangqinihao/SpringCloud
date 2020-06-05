@@ -56,12 +56,12 @@ Feign旨在使编写Java Http客户端变得更容易。
 所以，Feign在此基础上做了进一步封装，由他来帮助我们定义和实现依赖服务接口的定义。在Feign的实现下，我们只需创建一个接口并使用注解的方式来配置它（以前是Dao接口上面标注Mapper注解，现在是一个微服务接口上面标注一个Feign注解即可），即可完成对服务提供方的接口绑定，简化了使用Spring cloud Ribbon时，自动封装服务调用客户端的开发量。
 Feign集成了Ribbon利用Ribbon维护了Payment的服务列表信息，并且通过轮询实现了客户端的负载均衡。而与Ribbon不同的是，通过feign只需要定义服务绑定接口且以声明式的方法，优雅而简单的实现了服务调用
 
-新建项目 见openfeign-order80 8002 模块
+新建项目 见openfeign-order80 8002   8003 模块
 测试 http://localhost/openfeign/payment/get/1
 
 
-OpenFeign 就不存在 Feign死坑的问题
-天生自带负载均衡功能  这里如果负载均衡会报错，因为两个生产者的参数注解不一样
+OpenFeign 就不存在 Feign死坑的问题 yml也不用配置数据库
+天生自带负载均衡功能  
 推荐 OpenFeign
 
 OpenFeign超时控制 了解

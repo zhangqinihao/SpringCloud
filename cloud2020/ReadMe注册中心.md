@@ -10,7 +10,12 @@ RestTemplate提供了多种便捷访问远程Http服务的方法，
 单机注册中心
 生产者
 消费者
-
+RunDashBoard
+<option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
 
 ===============================================================
 eureka用到了高可用集群搭建  可以用SwitchHosts!修改本地端口号
