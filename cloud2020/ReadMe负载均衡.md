@@ -35,3 +35,17 @@ public String getPaymentLB(){
 }
 
 新建接口 LoadBalancer
+
+==========================
+开启springcloud重试功能
+spring:
+  cloud:
+     loadbalancer:
+         retry:
+          enabled: true # 开启Spring Cloud的重试功能
+
+
+<dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>

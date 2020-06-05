@@ -21,6 +21,7 @@
     <module>cloud-providerconsul-payment8006</module>
     <module>cloud-consumerconsul-order80</module>
       <module>cloud-consumer-order80-feign</module>
+    <module>cloud-consumer-openfeign-order80</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->
