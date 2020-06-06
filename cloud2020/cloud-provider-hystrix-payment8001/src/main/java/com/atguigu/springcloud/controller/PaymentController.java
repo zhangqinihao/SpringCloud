@@ -35,6 +35,12 @@ public class PaymentController {
         log.info("*******result:"+result);
         return result;
     }
+    @GetMapping("/payment/hystrix/timeoutok/{id}")
+    public String paymentInfo_TimeOutok(@PathVariable("id") Integer id){
+        String result = paymentService.paymentInfo_TimeOutok(id);
+        log.info("*******result:"+result);
+        return result;
+    }
 
 
 
