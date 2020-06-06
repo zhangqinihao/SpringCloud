@@ -41,7 +41,7 @@ public class PaymentController {
         Payment payment = paymentService.getPaymentById(id);
         log.info("*****查询结果："+payment);
         if (payment!=null){  //说明有数据，能查询成功
-            return new CommonResult(200,"查询成功8002,端口号:"+serverPort,payment);
+            return new CommonResult(200,"查询成功8003,端口号:"+serverPort,payment);
         }else {
             return new CommonResult(444,"没有对应记录，查询ID："+id,null);
         }

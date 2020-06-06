@@ -1,0 +1,29 @@
+server:
+  port: 9527 #服务端口
+
+
+spring:
+  application:
+    name: microservicecloud-zuul-gateway #指定服务名
+
+#配置路由
+zuul:
+  routes:
+    payment8001: # 这里是路由id，随意写
+      path: /** # 这里是映射路径
+      url: http://127.0.0.1:8001 # 映射路径对应的实际url地址
+      #serviceId : cloud-provider-hystrix-payment
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    instance-id: gateway-9527.com
+    prefer-ip-address: true
+
+
+info: #可写可不写
+  app.name: atguigu-microcloud
+  company.name: www.atguigu.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

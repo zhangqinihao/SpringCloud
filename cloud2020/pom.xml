@@ -25,6 +25,10 @@
     <module>cloud-consumerfeign-order80</module>
     <module>cloud-provider-hystrix-payment8001</module>
     <module>cloud-consumer-feign-hystrix-order80</module>
+      <module>cloud-consumer-hystrix-dashboard9001</module>
+      <module>microservicecloud-zuul-gateway-9527</module>
+      <module>microservicecloud-zuul-guizegateway-9527</module>
+      <module>cloud-gateway-gateway9527</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->

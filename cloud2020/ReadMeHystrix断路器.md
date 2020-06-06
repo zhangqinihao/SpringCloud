@@ -155,8 +155,96 @@ http://localhost/jieou/consumer/payment/hystrix/ok/1
 
 =======================================================================
 断路器  一句话就是家里保险丝
+熔断机制概述
+熔断机制是应对雪崩效应的一种微服务链路保护机制。当扇出链路的某个微服务出错不可用或者响应时间太长时，会进行服务的降级，进而熔断该节点微服务的调用，快速返回错误的响应信息。
+当检测到该节点微服务调用响应正常后，恢复调用链路。
+你能理解为找不到东西 还记得reids雪崩吗
+@HystrixCommand注解
+
+修改cloud-provider-hystrix-payment8001
+//服务熔断
+@HystrixCommand(fallbackMethod = "paymentCircuitBreaker_fallback",commandProperties = {
+        @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),  //是否开启断路器
+        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),   //请求次数
+        @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"),  //时间范围
+        @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60"), //失败率达到多少后跳闸
+})
+public String paymentCircuitBreaker(@PathVariable("id") Integer id){
+    if (id < 0){
+        throw new RuntimeException("*****id 不能负数");
+    }
+    String serialNumber = IdUtil.simpleUUID();
+
+    return Thread.currentThread().getName()+"\t"+"调用成功,流水号："+serialNumber;
+}
+public String paymentCircuitBreaker_fallback(@PathVariable("id") Integer id){
+    return "id 不能负数，请稍候再试,(┬＿┬)/~~     id: " +id;
+}
+
+http://localhost:8001//payment/circuit/1 成功
+http://localhost:8001//payment/circuit/-1 错误
+持续访问 http://localhost:8001//payment/circuit/-1
+完事访问http://localhost:8001//payment/circuit/1还是错误 得等一会才正常
+
+从正确->错误->降级熔断->恢复
+熔断类型
+熔断打开 请求不再进行调用当前服务，内部设置时钟一般为MTTR(平均故障处理时间)，当打开时长达到所设时钟则进入熔断状态
+熔断关闭 熔断关闭不会对服务进行熔断
+熔断半开 部分请求根据规则调用当前服务，如果请求成功且符合规则则认为当前服务恢复正常，关闭熔断
+
+涉及到断路器的三个重要参数：快照时间窗、请求总数阀值、错误百分比阀值。
+
+
+断路器开启或者关闭的条件
+当满足一定阀值的时候（默认10秒内超过20个请求次数）
+当失败率达到一定的时候（默认10秒内超过50%请求失败）
+到达以上阀值，断路器将会开启
+当开启的时候，所有请求都不会进行转发
+一段时间之后（默认是5秒），这个时候断路器是半开状态，会让其中一个请求进行转发。如果成功，断路器会关闭，若失败，继续开启。重复4和5
+====================================
+限流 alibaba的Sentinel说明
+
+
+==========================================================================
+服务监控hystrixDashboard  ：除了隔离依赖服务的调用以外，Hystrix还提供了准实时的调用监控（Hystrix Dashboard），Hystrix会持续地记录所有通过Hystrix发起的请求的执行信息，
+                    并以统计报表和图形的形式展示给用户，包括每秒执行多少请求多少成功，多少失败等。
+                    Netflix通过hystrix-metrics-event-stream项目实现了对以上指标的监控。Spring Cloud也提供了Hystrix Dashboard的整合，对监控内容转化成可视化界面。
 
 
 
 
+新建cloud-consumer-hystrix-dashboard9001
 
+HystrixDashboardMain9001+新注解@EnableHystrixDashboard
+
+
+
+所有Provider微服务提供类（8001/8002/8003）都需要监控依赖配置
+ 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+
+http://localhost:9001/hystrix
+修改cloud-provider-hystrix-payment8001
+
+注意：新版本Hystrix需要在主启动类MainAppHystrix8001中指定监控路径 要不报错
+Unable to connect to Command Metric Stream   404
+
+仪表盘配置见ReadMe仪表盘9001.jpg
+
+添写监控地址
+http://localhost:8001/hystrix.stream
+
+访问http://localhost:8001//payment/circuit/9 查看仪表盘
+
+如何看
+7色
+1圈：实心圆：共有两种含义。它通过颜色的变化代表了实例的健康程度，它的健康度从绿色<黄色<橙色<红色递减。
+   该实心圆除了颜色的变化之外，它的大小也会根据实例的请求流量发生变化，流量越大该实心圆就越大。
+   所以通过该实心圆的展示，就可以在大量的实例中快速的发现故障实例和高压力实例。
+1线 ：曲线：用来记录2分钟内流量的相对变化，可以通过它来观察到流量的上升和下降趋势。
+
+整图 见 熔断仪表盘.jpg
