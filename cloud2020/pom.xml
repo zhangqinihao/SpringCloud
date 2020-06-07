@@ -29,6 +29,7 @@
       <module>microservicecloud-zuul-gateway-9527</module>
       <module>microservicecloud-zuul-guizegateway-9527</module>
       <module>cloud-gateway-gateway9527</module>
+      <module>cloud-config-center-3344</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->

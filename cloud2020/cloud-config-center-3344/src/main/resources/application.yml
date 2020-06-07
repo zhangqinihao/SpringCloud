@@ -7,9 +7,9 @@ spring:
     config:
       server:
         git:
-          uri:  https://github.com/zhangqinihao/sprincloud-config.git #填写你自己的github路径
+          uri:  https://github.com/zhangqinihao/SpringCloud.git #填写你自己的github路径
           search-paths:
-            - springcloud-config
+            - SpringCloud
       label: master
 eureka:
   client:
